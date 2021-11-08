@@ -40,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Item.associate = (db) => {
         db.Item.hasMany(db.ItemImage, { foreignKey: 'item_id' });
+        db.Item.belongsToMany(db.User, { through: 'Like', as: 'Liker', foreignKey: 'item_id' });
     };
 
     return Item;

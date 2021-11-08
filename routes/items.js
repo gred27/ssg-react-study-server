@@ -12,10 +12,19 @@ router.get('/', async (req, res, next) => {
         });
 
         if (!items) {
-            return res.status(404).status('cannot get items');
+            return res.status(404).status('cannot get items').send({
+                'res_code': '404',
+                'res_status': 'failed'
+            });
         }
-
-        res.status(200).json(items);
+        
+        const result = {
+            res_code: '200',
+            res_status: 'success',
+            itemList : items
+        }
+        res.status(200).json(result);
+        
     } catch (error) {
         console.log(error);
         next(error);

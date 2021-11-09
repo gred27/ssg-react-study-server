@@ -101,6 +101,6 @@ web_modules/
 # Optional stylelint cache
 .stylelintcache
 
-utils/*
+utils/
 127.0.0.1
 # End of https://www.toptal.com/developers/gitignore/api/node

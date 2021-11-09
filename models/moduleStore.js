@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     ModuleStore.associate = (db) => {
-        db.ModuleStore.hasMany(db.Item);
+        db.ModuleStore.hasMany(db.Item, { foreignKey: 'module_store_id' });
     };
 
     return ModuleStore;

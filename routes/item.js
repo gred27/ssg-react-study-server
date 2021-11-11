@@ -33,36 +33,38 @@ router.get('/:item_id', async (req, res, next) => {
     }
 });
 
-router.patch('/:item_id/like', async (req, res) => {
-    console.log('like');
-    console.log(req);
+router.patch('/cliped', async (req, res) => {
+    console.log('cliped');
+    console.log(req.query);
     try {
+        const { item_id, user_id } = req.query;
         const item = await Item.findOne({
-            where: { item_id: req.params.item_id },
+            where: { item_id },
         });
         if (!item) {
             return res.status(404).status('cannot get item');
         }
-        await item.addClipUser(req.user.id);
-        return res.status(200).json({ res_code: '200', res_status: 'like success', item_id: item.id, user_id: req.user.id });
+        await item.addClipUser(user_id);
+        return res.status(200).json({ res_code: '200', res_status: 'cliped success', item_id, user_id });
     } catch (error) {
         console.error(error);
         next(error);
     }
 });
 
-router.patch('/:item_id/unlike', async (req, res) => {
-    console.log('unlike');
+router.delete('/uncliped', async (req, res) => {
+    console.log('uncliped');
     console.log(req);
     try {
+        const { item_id, user_id } = req.query;
         const item = await Item.findOne({
-            where: { item_id: req.params.item_id },
+            where: { item_id },
         });
         if (!item) {
             return res.status(404).status('cannot get item');
         }
-        await item.removeClipUser(req.user.id);
-        return res.status(200).json({ res_code: '200', res_status: 'like success', item_id: item.id, user_id: req.user.id });
+        await item.removeClipUser(user_id);
+        return res.status(200).json({ res_code: '200', res_status: 'cliped success', item_id, user_id });
     } catch (error) {
         console.error(error);
         next(error);

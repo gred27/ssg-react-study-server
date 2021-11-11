@@ -11,6 +11,11 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(),
                 allowNull: false,
             },
+            store_path: {
+                type: DataTypes.STRING(),
+                allowNull: false,
+                unique: true,
+            },
         },
         {
             charset: 'utf8',

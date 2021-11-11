@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(),
                 allowNull: false,
                 unique: true,
-                primaryKey: true,
             },
             item_name: {
                 type: DataTypes.STRING(),
@@ -39,8 +38,8 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     Item.associate = (db) => {
-        db.Item.hasMany(db.ItemImage, { foreignKey: 'item_id' });
-        db.Item.belongsToMany(db.User, { through: 'Like', as: 'Liker', foreignKey: 'item_id' });
+        db.Item.hasMany(db.ItemImage);
+        db.Item.belongsToMany(db.User, { through: 'Clip', as: 'ClipUser', foreignKey: 'item_id' });
         db.Item.belongsTo(db.ModuleStore, { foreignKey: 'module_store_id' });
     };
 

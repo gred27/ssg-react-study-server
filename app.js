@@ -4,6 +4,7 @@ const cors = require('cors');
 const userRouter = require('./routes/user');
 const itemRouter = require('./routes/item');
 const itemsRouter = require('./routes/items');
+const storeRouter = require('./routes/moduleStore');
 
 const db = require('./models');
 
@@ -41,6 +42,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use('/api/item', itemRouter);
 app.use('/api/items', itemsRouter);
+app.use('/api/stores', storeRouter);
 
 app.listen(3065, () => {
     console.log('Study API Server Start on port 3065');

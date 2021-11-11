@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.STRING(100),
                 allowNull: false,
             },
+            item_id: {
+                type: DataTypes.STRING(100),
+                allowNull: false,
+            },
         },
         {
             charset: 'utf8',
@@ -13,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
     ItemImage.associate = (db) => {
-        db.ItemImage.belongsTo(db.Item, { foreignKey: 'item_id' });
+        db.ItemImage.belongsTo(db.Item);
     };
     return ItemImage;
 };

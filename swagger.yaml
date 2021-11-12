@@ -1,0 +1,169 @@
+openapi: '3.0.2'
+info:
+    title: 'SSG WEBDEVELOP TEAM STUDY API'
+    version: '1.0.0'
+    description: 'React Study API'
+servers:
+    - url: 'http://localhost:3065/api/'
+components:
+    schemas:
+        Item:
+            type: object
+            required:
+                - 'item_id'
+                - 'item_name'
+            properties:
+                item_id:
+                    type: string
+                item_name:
+                    type: string
+                brand_name:
+                    type: string
+                item_link:
+                    type: string
+                strke_out_price:
+                    type: string
+                    description: price with strikethrough
+                display_price:
+                    type: string
+                    description: real price
+                is_adult_item:
+                    type: boolean
+                ItemImage:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ItemImage'
+                module_store_id:
+                    type: string
+        ItemImage:
+            type: object
+            required:
+                - 'src'
+                - 'item_id'
+            properties:
+                src:
+                    type: string
+                item_id:
+                    type: string
+        ModuleStore:
+            type: object
+            required:
+                - 'store_id'
+                - 'store_name'
+                - 'store_path'
+            properties:
+                store_id:
+                    type: string
+                store_name:
+                    type: string
+                store_path:
+                    type: string
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Item'
+
+paths:
+    /item/{item_id}:
+        get:
+            tags:
+                - 'Item'
+            description: 'Return single item information'
+            parameters:
+                - in: path
+                  name: item_id
+                  required: true
+                  description: ID of item
+                  schema:
+                      type: string
+
+            responses:
+                '200':
+                    description: Success to get item
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    res_code:
+                                        type: string
+                                    res_status:
+                                        type: string
+                                    data:
+                                        $ref: '#/components/schemas/Item'
+
+                '404':
+                    description: cannot get Item
+
+    /item/clipped:
+        patch:
+            description: Return clipped Item and clipUser
+            tags:
+                - 'Item'
+            parameters:
+                - in: query
+                  name: item_id
+                  required: true
+                  description: ID of item
+                  schema:
+                      type: string
+                - in: query
+                  name: user_id
+                  description: ID of user clips item
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    description: Success to clip
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    res_code:
+                                        type: string
+                                    res_status:
+                                        type: string
+                                    user_id:
+                                        type: string
+                                    item_id:
+                                        type: string
+
+                '404':
+                    description: cannot get item
+
+    /item/unclipped:
+        delete:
+            description: Delete clipped Item.
+            tags:
+                - 'Item'
+            parameters:
+                - in: query
+                  name: item_id
+                  required: true
+                  description: ID of item
+                  schema:
+                      type: string
+                - in: query
+                  name: user_id
+                  description: ID of user clips item
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: Success to delete clip item
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    res_code:
+                                        type: string
+                                    res_status:
+                                        type: string
+                                    user_id:
+                                        type: string
+                                    item_id:
+                                        type: string
+                404:
+                    description: cannot get item

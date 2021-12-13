@@ -2,32 +2,32 @@ module.exports = (sequelize, DataTypes) => {
 	const Item = sequelize.define(
 		'Item',
 		{
-			item_id: {
+			itemId: {
 				type: DataTypes.STRING(),
 				allowNull: false,
 				unique: true,
 			},
-			item_name: {
+			itemName: {
 				type: DataTypes.STRING(),
 				allowNull: false,
 			},
-			brand_name: {
+			brandName: {
 				type: DataTypes.STRING(),
 			},
-			item_link: {
+			itemLink: {
 				type: DataTypes.STRING(),
 			},
 
 			// 원래금액
-			strike_out_price: {
+			strikeOutPrice: {
 				type: DataTypes.STRING(),
 			},
 			// 노출금액
-			display_price: {
+			displayPrice: {
 				type: DataTypes.STRING(),
 			},
 
-			is_adult_item: {
+			isAdultItem: {
 				type: DataTypes.BOOLEAN,
 			},
 		},
@@ -38,9 +38,9 @@ module.exports = (sequelize, DataTypes) => {
 	);
 
 	Item.associate = (db) => {
-		db.Item.hasMany(db.ItemImage);
-		db.Item.belongsToMany(db.User, { through: 'Clip', as: 'ClipUser', foreignKey: 'item_id' });
-		db.Item.belongsTo(db.ModuleStore, { foreignKey: 'module_store_id' });
+		db.Item.hasMany(db.ItemImage, { sourceKey: 'itemId', foreignKey: 'itemId' });
+		db.Item.belongsToMany(db.User, { as: 'ClipUser', through: 'Clips', foreignKey: 'itemId', sourceKey: 'itemId' });
+		db.Item.belongsTo(db.ModuleStore, { targetKey: 'storeId', foreignKey: 'moduleStoreId' });
 	};
 
 	return Item;

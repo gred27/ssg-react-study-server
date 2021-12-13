@@ -4,12 +4,12 @@ const { Item, ItemImage } = require('../models');
 
 const router = express.Router();
 
-router.get('/:item_id', async (req, res, next) => {
+router.get('/:itemId', async (req, res, next) => {
 	console.log('item');
 	console.log(req.params);
 	try {
 		const item = await Item.findOne({
-			where: { item_id: req.params.item_id },
+			where: { itemId: req.params.itemId },
 		});
 
 		if (!item) {
@@ -17,7 +17,7 @@ router.get('/:item_id', async (req, res, next) => {
 		}
 
 		const imageItem = await Item.findOne({
-			where: { item_id: item.item_id },
+			where: { itemId: item.itemId },
 			include: [{ model: ItemImage }],
 		});
 
@@ -38,15 +38,15 @@ router.patch('/clipped', async (req, res) => {
 	console.log('clipped');
 	console.log(req.query);
 	try {
-		const { item_id, user_id } = req.query;
+		const { itemId, userId } = req.query;
 		const item = await Item.findOne({
-			where: { item_id },
+			where: { itemId },
 		});
 		if (!item) {
 			return res.status(404).status('cannot get item');
 		}
-		await item.addClipUser(user_id);
-		return res.status(200).json({ res_code: '200', res_status: 'clipped success', item_id, user_id });
+		await item.addClipUser(userId);
+		return res.status(200).json({ res_code: '200', res_status: 'clipped success', itemId, userId });
 	} catch (error) {
 		console.error(error);
 		next(error);
@@ -57,17 +57,17 @@ router.delete('/unclipped', async (req, res) => {
 	console.log('unclipped');
 	console.log(req);
 	try {
-		const { item_id, user_id } = req.query;
+		const { itemId, userId } = req.query;
 		const item = await Item.findOne({
-			where: { item_id },
+			where: { itemId },
 		});
 
 		console.log(item);
 		if (!item) {
 			return res.status(404).status('cannot get item');
 		}
-		await item.removeClipUser(user_id);
-		return res.status(200).json({ res_code: '200', res_status: 'clipped delete success', item_id, user_id });
+		await item.removeClipUser(userId);
+		return res.status(200).json({ res_code: '200', res_status: 'clipped delete success', itemId, userId });
 	} catch (error) {
 		console.error(error);
 		next(error);
